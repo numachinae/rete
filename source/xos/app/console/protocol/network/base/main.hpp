@@ -135,9 +135,9 @@ protected:
         int err = 0;
         string_t &request = this->request();
 
-        LOGGER_IS_LOGGED_INFO("all_received_request_run(request, argc, argv, env)...");
-        if (!(err = all_received_request_run(request, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_received_request_run(request, argc, argv, env)");
+        LOGGER_IS_LOGGED_INFO("all_receive_request_run(request, argc, argv, env)...");
+        if (!(err = all_receive_request_run(request, argc, argv, env))) {
+            LOGGER_IS_LOGGED_INFO("...all_receive_request_run(request, argc, argv, env)");
         }
         return err;
     }
@@ -360,9 +360,9 @@ protected:
     }
     virtual int after_received_request_run(string_t& request, int argc, char_t** argv, char_t** env) {
         int err = 0;
-        LOGGER_IS_LOGGED_INFO("all_process_request_received_run...");
+        LOGGER_IS_LOGGED_INFO("all_process_request_received_run(request, argc, argv, env)...");
         if (!(err = all_process_request_received_run(request, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_process_request_received_run");
+            LOGGER_IS_LOGGED_INFO("...all_process_request_received_run(request, argc, argv, env)");
         }
         return err;
     }
@@ -388,9 +388,9 @@ protected:
     }
     virtual int before_output_request_run(string_t& request, int argc, char_t** argv, char_t** env) {
         int err = 0;
-        LOGGER_IS_LOGGED_INFO("all_prepare_request_to_output_run...");
+        LOGGER_IS_LOGGED_INFO("all_prepare_request_to_output_run(request, argc, argv, env)...");
         if (!(err = all_prepare_request_to_output_run(request, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_prepare_request_to_output_run");
+            LOGGER_IS_LOGGED_INFO("...all_prepare_request_to_output_run(request, argc, argv, env)");
         }
         return err;
     }
@@ -582,9 +582,9 @@ protected:
     }
     virtual int after_prepare_request_received_run(string_t& request, int argc, char_t** argv, char_t** env) {
         int err = 0;
-        LOGGER_IS_LOGGED_INFO("all_prepare_message_to_send_run...");
-        if (!(err = all_prepare_message_to_send_run(request, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_prepare_message_to_send_run");
+        LOGGER_IS_LOGGED_INFO("all_prepare_message_received_run(request, argc, argv, env)...");
+        if (!(err = all_prepare_message_received_run(request, argc, argv, env))) {
+            LOGGER_IS_LOGGED_INFO("...all_prepare_message_received_run(request, argc, argv, env)");
         }
         return err;
     }
@@ -665,9 +665,9 @@ protected:
     }
     virtual int after_prepare_response_to_send_run(string_t& response, int argc, char_t** argv, char_t** env) {
         int err = 0;
-        LOGGER_IS_LOGGED_INFO("all_prepare_message_to_send_run...");
+        LOGGER_IS_LOGGED_INFO("all_prepare_message_to_send_run(response, argc, argv, env)...");
         if (!(err = all_prepare_message_to_send_run(response, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_prepare_message_to_send_run");
+            LOGGER_IS_LOGGED_INFO("...all_prepare_message_to_send_run(response, argc, argv, env)");
         }
         return err;
     }
@@ -693,9 +693,9 @@ protected:
     }
     virtual int after_prepare_response_received_run(string_t& response, int argc, char_t** argv, char_t** env) {
         int err = 0;
-        LOGGER_IS_LOGGED_INFO("all_prepare_message_to_send_run(...");
-        if (!(err = all_prepare_message_to_send_run(response, argc, argv, env))) {
-            LOGGER_IS_LOGGED_INFO("...all_prepare_message_to_send_run");
+        LOGGER_IS_LOGGED_INFO("all_prepare_message_received_run(response, argc, argv, env)...");
+        if (!(err = all_prepare_message_received_run(response, argc, argv, env))) {
+            LOGGER_IS_LOGGED_INFO("...all_prepare_message_received_run(response, argc, argv, env)");
         }
         return err;
     }
@@ -852,6 +852,62 @@ protected:
         }
         return err;
     }
+    /// ...prepare_message_received_run
+    virtual int prepare_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        LOGGER_IS_LOGGED_INFO("all_prepare_crlf2_message_received_run(message, argc, argv, env)...");
+        if (!(err = all_prepare_crlf2_message_received_run(message, argc, argv, env))) {
+            LOGGER_IS_LOGGED_INFO("...all_prepare_crlf2_message_received_run(message, argc, argv, env)");
+        }
+        return err;
+    }
+    virtual int before_prepare_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_message_received_run(message, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_message_received_run(message, argc, argv, env);
+            if ((err2 = after_prepare_message_received_run(message, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+    /// ...process_message_sent_run
+    virtual int process_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        LOGGER_IS_LOGGED_INFO("all_process_crlf2_message_sent_run(message, argc, argv, env)...");
+        if (!(err = all_process_crlf2_message_sent_run(message, argc, argv, env))) {
+            LOGGER_IS_LOGGED_INFO("...all_process_crlf2_message_sent_run(message, argc, argv, env)");
+        }
+        return err;
+    }
+    virtual int before_process_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_process_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_process_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_process_message_sent_run(message, argc, argv, env))) {
+            int err2 = 0;
+            err = process_message_sent_run(message, argc, argv, env);
+            if ((err2 = after_process_message_sent_run(message, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
     /// ...process_message_received_run
     virtual int process_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
         int err = 0;
@@ -883,6 +939,8 @@ protected:
 
     //////////////////////////////////////////////////////////////////////////
 
+    /// append crlf2_endof_message
+    /// ...
     /// ...prepare_crlf2_message_to_send_run
     virtual int prepare_crlf2_message_to_send_run(string_t& message, int argc, char_t** argv, char_t** env) {
         int err = 0;
@@ -908,6 +966,63 @@ protected:
             int err2 = 0;
             err = prepare_crlf2_message_to_send_run(message, argc, argv, env);
             if ((err2 = after_prepare_crlf2_message_to_send_run(message, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+    /// ...prepare_crlf2_message_received_run
+    virtual int prepare_crlf2_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = all_prepare_crlf2_message_to_send_run(message, argc, argv, env))) {
+        }
+        return err;
+    }
+    virtual int before_prepare_crlf2_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_prepare_crlf2_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_prepare_crlf2_message_received_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_prepare_crlf2_message_received_run(message, argc, argv, env))) {
+            int err2 = 0;
+            err = prepare_crlf2_message_received_run(message, argc, argv, env);
+            if ((err2 = after_prepare_crlf2_message_received_run(message, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        }
+        return err;
+    }
+    /// ...
+    /// append crlf2_endof_message
+    
+    /// remove crlf2_endof_message
+    /// ...
+    /// ...process_crlf2_message_sent_run
+    virtual int process_crlf2_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = all_process_crlf2_message_received_run(message, argc, argv, env))) {
+        }
+        return err;
+    }
+    virtual int before_process_crlf2_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_process_crlf2_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int all_process_crlf2_message_sent_run(string_t& message, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_process_crlf2_message_sent_run(message, argc, argv, env))) {
+            int err2 = 0;
+            err = process_crlf2_message_sent_run(message, argc, argv, env);
+            if ((err2 = after_process_crlf2_message_sent_run(message, argc, argv, env))) {
                 if (!(err)) err = err2;
             }
         }
@@ -956,6 +1071,8 @@ protected:
         }
         return err;
     }
+    /// ...
+    /// remove crlf2_endof_message
 
     //////////////////////////////////////////////////////////////////////////
 
